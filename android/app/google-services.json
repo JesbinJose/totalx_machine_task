@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "124611560394",
+    "project_id": "total-x-machine-task",
+    "storage_bucket": "total-x-machine-task.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124611560394:android:ce3ce81813eda505c10533",
+        "android_client_info": {
+          "package_name": "com.example.totalx_machine_task"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4_NlJUNtwlx33YWvZah71q3f2ugAN9B8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

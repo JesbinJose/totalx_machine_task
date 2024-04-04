@@ -1,39 +1,54 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
-class PhoneNumberAuthServices {
+class PhoneNumberAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String _verificationId = '';
+  String _phoneNumber = '';
 
-  //SignInWithPhoneNumber or send otp function
-  Future<bool> signInWithPhoneNumber(
-    BuildContext context,
-    String phoneNumber,
-  ) async {
-    bool isVerificationOK = false;
-    await _auth.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        await _auth.signInWithCredential(credential);
-      },
-      verificationFailed: (FirebaseAuthException e) {},
-      codeSent: (String verificationId, int? resendToken) async {
-        _verificationId = verificationId;
-        isVerificationOK = true;
-        //handle Navigation here
-      },
-      codeAutoRetrievalTimeout: (String verificationId) async {
-        await Future.delayed(
-          const Duration(
-            minutes: 2,
-          ),
-        );
-      },
-    );
-    return isVerificationOK;
+  // Sign in with phone number and send OTP
+  Future<bool> signInWithPhoneNumber(String phoneNumber) async {
+    bool isVerificationSent = false;
+    _phoneNumber = phoneNumber;
+    try {
+      await _auth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await _auth.signInWithCredential(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          //handle exception
+        },
+        codeSent: (String verificationId, int? resendToken) async {
+          _verificationId = verificationId;
+          isVerificationSent = true;
+          // Handle navigation here (optional)
+        },
+        codeAutoRetrievalTimeout: (String verificationId) async {
+          await Future.delayed(const Duration(minutes: 2));
+        },
+      );
+    } catch (e) {
+      //handle exception
+    }
+    return isVerificationSent;
   }
 
-  Future<String> verifyOTP({required String smsCode, required context}) async {
+  // Resend OTP function
+  Future<void> resendOTP() async {
+    if (_verificationId.isEmpty) {
+      //handle empty case
+      return;
+    }
+
+    try {
+      signInWithPhoneNumber(_phoneNumber);
+    } catch (e) {
+      print('Error during OTP resend: $e'); // Log for debugging
+    }
+  }
+
+  // Verify OTP
+  Future<String> verifyOTP({required String smsCode, required}) async {
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: _verificationId,
@@ -43,8 +58,8 @@ class PhoneNumberAuthServices {
       if (user != null) {
         return user.uid;
       }
-    } on FirebaseAuthException catch (e) {
-      //Show snakbar
+    } on FirebaseAuthException catch (_) {
+      //handle  exception here and show appropriate message to the user
     }
     return '';
   }

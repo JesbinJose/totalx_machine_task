@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:totalx_machine_task/auth/auth_service.dart';
+import 'package:totalx_machine_task/presentation/screens/auth/widgets/auth_phone_num_field.dart';
 import 'package:totalx_machine_task/presentation/screens/auth/widgets/auth_show_image.dart';
+import 'package:totalx_machine_task/presentation/screens/auth/widgets/custom_terms_text.dart';
+import 'package:totalx_machine_task/presentation/screens/auth/widgets/custom_text_button.dart';
 import 'package:totalx_machine_task/presentation/widgets/const_space.dart';
+import 'package:totalx_machine_task/presentation/widgets/custom_text_title.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -11,7 +15,6 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -22,49 +25,17 @@ class LoginScreen extends StatelessWidget {
             children: [
               flex(1),
               const CustomAssetsImageWidget(imagePath: 'assets/phone.png'),
-              Text(
-                'Enter Phone Number',
-                style: textTheme.titleMedium,
+              const MyTextTitle(
+                title: 'Enter Phone Number',
               ),
               k20Height,
-              TextFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: InputDecoration(
-                  hintText: "Enter Phone Number",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-                validator: (value) {
-                  if (value?.length != 10) return 'Please a valid phone number';
-                  return null;
-                },
+              CustomPhoneNumberTextField(
+                phoneNumberController: _phoneNumberController,
               ),
               k20Height,
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: "By Continuing, I agree to TotalX's ",
-                      style: textTheme.displaySmall,
-                    ),
-                    TextSpan(
-                      text: "Terms and condition",
-                      style: textTheme.labelSmall,
-                    ),
-                    TextSpan(
-                      text: " & ",
-                      style: textTheme.displaySmall,
-                    ),
-                    TextSpan(
-                      text: "privacy policy",
-                      style: textTheme.labelSmall,
-                    ),
-                  ],
-                ),
-              ),
+              const CustomAuthTermsText(),
               k30Height,
-              ElevatedButton(
+              CustomButton(
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
                     _sendOTP(
@@ -73,13 +44,7 @@ class LoginScreen extends StatelessWidget {
                     );
                   }
                 },
-                child: SizedBox(
-                  width: MediaQuery.sizeOf(context).width * .75,
-                  height: 44,
-                  child: const Center(
-                    child: Text("Login"),
-                  ),
-                ),
+                child: 'Get OTP',
               ),
               flex(4),
             ],
@@ -90,9 +55,8 @@ class LoginScreen extends StatelessWidget {
   }
 
   void _sendOTP(BuildContext context, String phoneNumber) async {
-    await _auth
-        .signInWithPhoneNumber("+91$phoneNumber", context)
-        .then((value) {
+    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ,))
+    await _auth.signInWithPhoneNumber("+91$phoneNumber", context).then((value) {
       if (value) {
         Navigator.pushReplacement(
           context,

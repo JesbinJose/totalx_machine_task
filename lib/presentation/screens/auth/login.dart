@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:totalx_machine_task/auth/auth_service.dart';
 import 'package:totalx_machine_task/presentation/screens/auth/widgets/auth_show_image.dart';

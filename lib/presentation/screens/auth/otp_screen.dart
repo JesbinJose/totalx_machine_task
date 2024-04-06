@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:otp_text_field/otp_field_style.dart';
-import 'package:otp_text_field/style.dart';
 import 'package:totalx_machine_task/auth/auth_service.dart';
 import 'package:totalx_machine_task/presentation/screens/auth/widgets/auth_otp_timer.dart';
 import 'package:totalx_machine_task/presentation/screens/auth/widgets/auth_show_image.dart';

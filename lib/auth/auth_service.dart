@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:totalx_machine_task/presentation/screens/auth/otp_screen.dart';
 
 class PhoneNumberAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -6,7 +8,8 @@ class PhoneNumberAuthService {
   String _phoneNumber = '';
 
   // Sign in with phone number and send OTP
-  Future<bool> signInWithPhoneNumber(String phoneNumber) async {
+  Future<bool> signInWithPhoneNumber(
+      String phoneNumber, BuildContext context) async {
     bool isVerificationSent = false;
     _phoneNumber = phoneNumber;
     try {
@@ -19,31 +22,41 @@ class PhoneNumberAuthService {
           //handle exception
         },
         codeSent: (String verificationId, int? resendToken) async {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OTPScreen(
+                auth: this,
+                phoneNumber: phoneNumber,
+              ),
+            ),
+          );
           _verificationId = verificationId;
           isVerificationSent = true;
-          // Handle navigation here (optional)
+          // Handle navigation here
         },
         codeAutoRetrievalTimeout: (String verificationId) async {
           await Future.delayed(const Duration(minutes: 2));
         },
       );
     } catch (e) {
+      debugPrint(e.toString());
       //handle exception
     }
     return isVerificationSent;
   }
 
   // Resend OTP function
-  Future<void> resendOTP() async {
+  Future<void> resendOTP(BuildContext context) async {
     if (_verificationId.isEmpty) {
       //handle empty case
       return;
     }
 
     try {
-      signInWithPhoneNumber(_phoneNumber);
+      signInWithPhoneNumber(_phoneNumber, context);
     } catch (e) {
-      print('Error during OTP resend: $e'); // Log for debugging
+      debugPrint('Error during OTP resend: $e'); // Log for debugging
     }
   }
 
@@ -59,6 +72,7 @@ class PhoneNumberAuthService {
         return user.uid;
       }
     } on FirebaseAuthException catch (_) {
+      debugPrint(_.toString());
       //handle  exception here and show appropriate message to the user
     }
     return '';

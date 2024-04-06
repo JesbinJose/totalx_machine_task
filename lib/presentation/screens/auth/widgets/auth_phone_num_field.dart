@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomPhoneNumberTextField extends StatelessWidget {
   const CustomPhoneNumberTextField({
@@ -20,6 +21,7 @@ class CustomPhoneNumberTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
         ),
       ),
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       validator: (value) {
         if (value?.length != 10) return 'Please a valid phone number';
         return null;

@@ -55,16 +55,6 @@ class LoginScreen extends StatelessWidget {
   }
 
   void _sendOTP(BuildContext context, String phoneNumber) async {
-    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ,))
-    await _auth.signInWithPhoneNumber("+91$phoneNumber", context).then((value) {
-      if (value) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Scaffold(),
-          ),
-        );
-      }
-    });
+    await _auth.signInWithPhoneNumber("+91$phoneNumber", context);
   }
 }

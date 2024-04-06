@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 final ThemeData myTheme = ThemeData(
   scaffoldBackgroundColor: Colors.white,
+  iconTheme: const IconThemeData(color: Colors.white),
   textTheme: TextTheme(
     titleMedium: TextStyle(
       letterSpacing: 0.3,
@@ -35,6 +36,20 @@ final ThemeData myTheme = ThemeData(
       fontWeight: FontWeight.w600,
     ),
   ),
+  appBarTheme: AppBarTheme(
+    backgroundColor: Colors.black,
+    toolbarHeight: 70,
+    titleTextStyle: TextStyle(
+      fontFamily: GoogleFonts.montserrat().fontFamily,
+      color: Colors.white,
+      fontWeight: FontWeight.w500,
+      fontSize: 14,
+    ),
+    iconTheme: const IconThemeData(
+      color: Colors.white,
+      size: 15,
+    ),
+  ),
   hintColor: const Color(0x36000000),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
@@ -54,6 +69,17 @@ final ThemeData myTheme = ThemeData(
       alignment: Alignment.center,
     ),
   ),
+  iconButtonTheme: IconButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: MaterialStateColor.resolveWith(
+        (states) => const Color(0xFF100E09),
+      ),
+      foregroundColor: MaterialStateColor.resolveWith(
+        (states) => Colors.white,
+      ),
+      alignment: Alignment.center,
+    ),
+  ),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     backgroundColor: Colors.black,
     foregroundColor: Colors.white,
@@ -62,6 +88,9 @@ final ThemeData myTheme = ThemeData(
   listTileTheme: ListTileThemeData(
     visualDensity: VisualDensity.standard,
     tileColor: Colors.white,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10.0), 
+    ),
     titleTextStyle: GoogleFonts.montserrat().copyWith(
       color: Colors.black,
       fontSize: 13,

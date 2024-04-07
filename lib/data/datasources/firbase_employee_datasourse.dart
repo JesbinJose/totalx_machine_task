@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:totalx_machine_task/data/models/age_enum.dart';
 import 'package:totalx_machine_task/data/repositories/employee_repo.dart';
 
 class EmployeeDataSource implements EmployeeFirbaseOperations {
@@ -61,5 +62,25 @@ class EmployeeDataSource implements EmployeeFirbaseOperations {
   Future<bool> editEmployee(
       Map<String, dynamic> employeeData, String documentID) {
     throw UnimplementedError();
+  }
+
+  @override
+  Future<List<DocumentSnapshot<Object?>>> getEmployeeByAge(
+      DocumentSnapshot? lastID, Selection age) async {
+    List<DocumentSnapshot<Object?>> res = (await firestore.get()).docs;
+    List<DocumentSnapshot<Object?>> result = [];
+    for (var i in res) {
+      switch (age) {
+        case Selection.elder:
+          if (i['age'] as int > 60) result.add(i);
+          break;
+        case Selection.younger:
+          if (i['age'] as int < 60) result.add(i);
+          break;
+        default:
+          break;
+      }
+    }
+    return result;
   }
 }

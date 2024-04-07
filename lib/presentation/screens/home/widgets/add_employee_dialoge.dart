@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:totalx_machine_task/presentation/widgets/add_employee_dialoge_actions.dart';
-import 'package:totalx_machine_task/presentation/widgets/pick_image_button.dart';
+import 'package:totalx_machine_task/presentation/screens/home/widgets/add_employee_dialoge_actions.dart';
+import 'package:totalx_machine_task/presentation/screens/home/widgets/pick_image_button.dart';
 
 class AddEmployeeDialog extends StatelessWidget {
   AddEmployeeDialog({

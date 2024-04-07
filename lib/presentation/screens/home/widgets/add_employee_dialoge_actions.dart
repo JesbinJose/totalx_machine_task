@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:totalx_machine_task/domain/usecases/add_employee.dart';
-import 'package:totalx_machine_task/presentation/providers/cubit/employee_cubit.dart';
+import 'package:totalx_machine_task/presentation/cubit/employee_cubit.dart';
 import 'package:totalx_machine_task/presentation/widgets/const_space.dart';
 
 class AddEmployeeDialogeActions extends StatelessWidget {

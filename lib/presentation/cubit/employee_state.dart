@@ -5,7 +5,7 @@ sealed class EmployeeState {
   final bool isLoading;
   EmployeeState({
     required this.employees,
-    this.isLoading = false,
+    this.isLoading = true,
   });
 }
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:totalx_machine_task/auth/auth_service.dart';
 import 'package:totalx_machine_task/firebase_options.dart';
-import 'package:totalx_machine_task/presentation/providers/cubit/employee_cubit.dart';
+import 'package:totalx_machine_task/presentation/cubit/employee_cubit.dart';
 import 'package:totalx_machine_task/presentation/screens/auth/login.dart';
 import 'package:totalx_machine_task/presentation/screens/home/home.dart';
 import 'package:totalx_machine_task/presentation/theme.dart';

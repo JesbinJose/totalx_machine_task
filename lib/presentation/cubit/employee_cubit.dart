@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:totalx_machine_task/data/models/age_enum.dart';
 import 'package:totalx_machine_task/data/models/employee_model.dart';
 import 'package:totalx_machine_task/domain/usecases/add_employee.dart';
 import 'package:totalx_machine_task/domain/usecases/get_employee.dart';
@@ -34,8 +35,16 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     );
   }
 
+  Future<void> searchEmployeesbyAge(Selection age) async {
+    emit(
+      EmployeeUpdated(
+        employees: await GetEmployee.getEmployeeByAge(null, age),
+      ),
+    );
+  }
+
   Future<void> addEmployee(Uint8List? image, String name, int age) async {
     await AddEmployee.addEmployee(image, name, age);
-    emit(EmployeeUpdated(employees: [...state.employees]));
+    emit(EmployeeUpdated(employees: [...state.employees],isLoading: false));
   }
 }

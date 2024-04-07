@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:totalx_machine_task/presentation/providers/cubit/employee_cubit.dart';
+import 'package:totalx_machine_task/presentation/cubit/employee_cubit.dart';
 import 'package:totalx_machine_task/presentation/screens/home/widgets/custom_employee_list.dart';
 import 'package:totalx_machine_task/presentation/screens/home/widgets/search_and_filter.dart';
 import 'package:totalx_machine_task/presentation/screens/home/widgets/show_loaction_title.dart';
-import 'package:totalx_machine_task/presentation/widgets/add_employee_dialoge.dart';
+import 'package:totalx_machine_task/presentation/screens/home/widgets/add_employee_dialoge.dart';
 import 'package:totalx_machine_task/presentation/widgets/const_space.dart';
 
 class HomeScreen extends StatelessWidget {

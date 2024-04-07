@@ -20,7 +20,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
       newEmployees = await GetEmployee.getEmployeeByName(lastId, query);
     }
     for (var employee in state.employees) {
-      if (newEmployees.every((element) => element.refId!=employee.refId)) {
+      if (newEmployees.every((element) => element.refId != employee.refId)) {
         newEmployees.add(employee);
       }
     }
@@ -36,9 +36,21 @@ class EmployeeCubit extends Cubit<EmployeeState> {
   }
 
   Future<void> searchEmployeesbyAge(Selection age) async {
+    List<Employee> employees = [];
+    if (age == Selection.all) {
+      employees = await GetEmployee.getEmployeeByAge(null, age);
+    } else {
+      for (Employee e in await GetEmployee.getEmployeeByAge(null, age)) {
+        if (e.age < 60 && age == Selection.younger) {
+          employees.add(e);
+        } else if (e.age > 60 && age == Selection.elder) {
+          employees.add(e);
+        }
+      }
+    }
     emit(
       EmployeeUpdated(
-        employees: await GetEmployee.getEmployeeByAge(null, age),
+        employees: employees,
         isLoading: false,
       ),
     );
@@ -46,6 +58,8 @@ class EmployeeCubit extends Cubit<EmployeeState> {
 
   Future<void> addEmployee(Uint8List? image, String name, int age) async {
     await AddEmployee.addEmployee(image, name, age);
-    emit(EmployeeUpdated(employees: [...state.employees],));
+    emit(EmployeeUpdated(
+      employees: [...state.employees],
+    ));
   }
 }

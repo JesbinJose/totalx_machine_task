@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:totalx_machine_task/presentation/screens/auth/otp_screen.dart';
 
@@ -13,15 +14,8 @@ class PhoneNumberAuthService {
     bool isVerificationSent = false;
     _phoneNumber = phoneNumber;
     try {
-      await _auth.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          await _auth.signInWithCredential(credential);
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          //handle exception
-        },
-        codeSent: (String verificationId, int? resendToken) async {
+      if (kIsWeb) {
+        _auth.signInWithPhoneNumber(phoneNumber).then((a) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -31,14 +25,36 @@ class PhoneNumberAuthService {
               ),
             ),
           );
-          _verificationId = verificationId;
-          isVerificationSent = true;
-          // Handle navigation here
-        },
-        codeAutoRetrievalTimeout: (String verificationId) async {
-          await Future.delayed(const Duration(minutes: 2));
-        },
-      );
+          _verificationId = a.verificationId;
+        });
+      } else {
+        await _auth.verifyPhoneNumber(
+          phoneNumber: phoneNumber,
+          verificationCompleted: (PhoneAuthCredential credential) async {
+            await _auth.signInWithCredential(credential);
+          },
+          verificationFailed: (FirebaseAuthException e) {
+            //handle exception
+          },
+          codeSent: (String verificationId, int? resendToken) async {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OTPScreen(
+                  auth: this,
+                  phoneNumber: phoneNumber,
+                ),
+              ),
+            );
+            _verificationId = verificationId;
+            isVerificationSent = true;
+            // Handle navigation here
+          },
+          codeAutoRetrievalTimeout: (String verificationId) async {
+            await Future.delayed(const Duration(minutes: 2));
+          },
+        );
+      }
     } catch (e) {
       debugPrint(e.toString());
       //handle exception

@@ -9,18 +9,25 @@ class EmployeeDataSource implements EmployeeFirbaseOperations {
       FirebaseFirestore.instance.collection('employees');
   @override
   Future<List<DocumentSnapshot>> getEmployee(DocumentSnapshot? lastId) async {
-    var ref = firestore.orderBy('name').limit(10);
+    var ref = firestore.orderBy('image_url').limit(10);
     if (lastId != null) ref = ref.startAfterDocument(lastId);
     return (await ref.get()).docs;
   }
 
   @override
-  Future<bool> addEmployee(Map<String, dynamic> employeeData) async {
+  Future<List<DocumentSnapshot>> getEmployeeByName(DocumentSnapshot? lastID, String name) async{
+    var ref = firestore.where('name',isEqualTo: name);
+    if (lastID != null) ref = ref.startAfterDocument(lastID);
+    return (await ref.get()).docs;
+  }
+
+  @override
+  Future<String?> addEmployee(Map<String, dynamic> employeeData) async {
     try {
-      firestore.add(employeeData);
-      return true;
+      final DocumentReference ref = await firestore.add(employeeData);
+      return ref.id;
     } catch (e) {
-      return false;
+      return null;
     }
   }
 
@@ -52,4 +59,6 @@ class EmployeeDataSource implements EmployeeFirbaseOperations {
       Map<String, dynamic> employeeData, String documentID) {
     throw UnimplementedError();
   }
+  
+  
 }

@@ -1,8 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:totalx_machine_task/presentation/providers/cubit/employee_cubit.dart';
 import 'package:totalx_machine_task/presentation/screens/home/widgets/custom_list_tile.dart';
 import 'package:totalx_machine_task/presentation/screens/home/widgets/search_and_filter.dart';
 import 'package:totalx_machine_task/presentation/screens/home/widgets/show_loaction_title.dart';
 import 'package:totalx_machine_task/presentation/widgets/const_space.dart';
+import 'package:image_picker/image_picker.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -51,17 +56,30 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => CustomListTile(),
-                    childCount: 10,
-                  ),
+                BlocBuilder<EmployeeCubit, EmployeeState>(
+                  builder: (context, state) {
+                    return SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) => const CustomListTile(),
+                        childCount: state.employees.length,
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              ImagePicker().pickImage(source: ImageSource.camera).then(
+                (value) async {
+                  if (value != null) {
+                    context.read<EmployeeCubit>().addEmployee(
+                        await value.readAsBytes(), 'Jesbin Jose', 18);
+                  }
+                },
+              );
+            },
             child: const Icon(Icons.add),
           ),
         ),

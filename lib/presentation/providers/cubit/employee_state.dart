@@ -1,9 +1,12 @@
 part of 'employee_cubit.dart';
 
 sealed class EmployeeState {
-  List<Employee> employees;
-
-  EmployeeState({required this.employees});
+  final List<Employee> employees;
+  final bool isLoading;
+  EmployeeState({
+    required this.employees,
+    this.isLoading = false,
+  });
 }
 
 final class EmployeeInitial extends EmployeeState {
@@ -11,5 +14,5 @@ final class EmployeeInitial extends EmployeeState {
 }
 
 final class EmployeeUpdated extends EmployeeState {
-  EmployeeUpdated({required super.employees});
+  EmployeeUpdated({required super.employees,super.isLoading});
 }

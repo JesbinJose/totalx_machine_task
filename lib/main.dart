@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       home: BlocProvider(
         create: (context) => EmployeeCubit(),
         child: PhoneNumberAuthService().isLoggedIn()
-            ? const HomeScreen()
+            ?  HomeScreen()
             : LoginScreen(),
       ),
     );

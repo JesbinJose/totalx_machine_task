@@ -1,12 +1,15 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:totalx_machine_task/presentation/providers/cubit/employee_cubit.dart';
 
 class SearchAndFilterWidget extends StatelessWidget {
   const SearchAndFilterWidget({
     super.key,
-  });
+    required TextEditingController name,
+  }) : _name = name;
+  final TextEditingController _name;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +20,10 @@ class SearchAndFilterWidget extends StatelessWidget {
           height: 32,
           width: MediaQuery.sizeOf(context).width - 200,
           child: TextField(
+            onChanged: (value)async {
+              await context.read<EmployeeCubit>().searchEmployees(value);
+            },
+            controller: _name,
             cursorHeight: 20,
             style: const TextStyle(
               fontSize: 13,

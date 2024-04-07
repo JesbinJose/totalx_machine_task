@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:totalx_machine_task/constants.dart';
+import 'package:totalx_machine_task/data/models/employee_model.dart';
 
 class CustomListTile extends StatelessWidget {
   const CustomListTile({
     super.key,
+    required this.employee,
   });
+  final Employee employee;
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +26,12 @@ class CustomListTile extends StatelessWidget {
       ),
       child: ListTile(
         leading: CircleAvatar(
-          child: Image.network(
-            '${firebaseStorageBaseUrl}1712416504571.png?alt=media&token=de5b40ed-d079-467e-a496-2d5535959322',
-            fit: BoxFit.cover,
+          backgroundImage: NetworkImage(
+            employee.imageUrl,
           ),
         ),
-        title: const Text('Jesbin Jose'),
-        subtitle: const Text('Age 32'),
+        title: Text(employee.name),
+        subtitle: Text('Age ${employee.age}'),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),

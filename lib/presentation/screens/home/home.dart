@@ -1,16 +1,15 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:totalx_machine_task/presentation/providers/cubit/employee_cubit.dart';
-import 'package:totalx_machine_task/presentation/screens/home/widgets/custom_list_tile.dart';
+import 'package:totalx_machine_task/presentation/screens/home/widgets/custom_employee_list.dart';
 import 'package:totalx_machine_task/presentation/screens/home/widgets/search_and_filter.dart';
 import 'package:totalx_machine_task/presentation/screens/home/widgets/show_loaction_title.dart';
+import 'package:totalx_machine_task/presentation/widgets/add_employee_dialoge.dart';
 import 'package:totalx_machine_task/presentation/widgets/const_space.dart';
-import 'package:image_picker/image_picker.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+  final TextEditingController _name = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
@@ -43,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             k30Height,
                             k10Height,
-                            const SearchAndFilterWidget(),
+                            SearchAndFilterWidget(name: _name),
                             k10Height,
                             Text(
                               '  Users Lists',
@@ -58,11 +57,9 @@ class HomeScreen extends StatelessWidget {
                 ),
                 BlocBuilder<EmployeeCubit, EmployeeState>(
                   builder: (context, state) {
-                    return SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) => const CustomListTile(),
-                        childCount: state.employees.length,
-                      ),
+                    return CustomEmployeeList(
+                      state: state,
+                      name: _name,
                     );
                   },
                 ),
@@ -71,13 +68,9 @@ class HomeScreen extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              ImagePicker().pickImage(source: ImageSource.camera).then(
-                (value) async {
-                  if (value != null) {
-                    context.read<EmployeeCubit>().addEmployee(
-                        await value.readAsBytes(), 'Jesbin Jose', 18);
-                  }
-                },
+              showDialog(
+                context: context,
+                builder: (context) => AddEmployeeDialog(),
               );
             },
             child: const Icon(Icons.add),

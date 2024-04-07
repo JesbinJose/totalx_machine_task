@@ -85,11 +85,25 @@ final ThemeData myTheme = ThemeData(
     foregroundColor: Colors.white,
     shape: CircleBorder(),
   ),
+  dialogTheme: DialogTheme(
+    titleTextStyle: TextStyle(
+      fontFamily: GoogleFonts.montserrat().fontFamily,
+      fontSize: 13,
+      color: Colors.black,
+      fontWeight: FontWeight.w600,
+    ),
+    contentTextStyle: TextStyle(
+      fontFamily: GoogleFonts.montserrat().fontFamily,
+      fontSize: 12,
+      color: const Color(0xFF333333),
+      fontWeight: FontWeight.w400,
+    ),
+  ),
   listTileTheme: ListTileThemeData(
     visualDensity: VisualDensity.standard,
     tileColor: Colors.white,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.0), 
+      borderRadius: BorderRadius.circular(10.0),
     ),
     titleTextStyle: GoogleFonts.montserrat().copyWith(
       color: Colors.black,

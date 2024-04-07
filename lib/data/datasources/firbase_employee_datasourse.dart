@@ -15,8 +15,11 @@ class EmployeeDataSource implements EmployeeFirbaseOperations {
   }
 
   @override
-  Future<List<DocumentSnapshot>> getEmployeeByName(DocumentSnapshot? lastID, String name) async{
-    var ref = firestore.where('name',isEqualTo: name);
+  Future<List<DocumentSnapshot>> getEmployeeByName(
+      DocumentSnapshot? lastID, String name) async {
+    var ref = firestore
+        .where('name', isGreaterThanOrEqualTo: name)
+        .where('name', isLessThan: '$name\uf8ff');
     if (lastID != null) ref = ref.startAfterDocument(lastID);
     return (await ref.get()).docs;
   }
@@ -59,6 +62,4 @@ class EmployeeDataSource implements EmployeeFirbaseOperations {
       Map<String, dynamic> employeeData, String documentID) {
     throw UnimplementedError();
   }
-  
-  
 }

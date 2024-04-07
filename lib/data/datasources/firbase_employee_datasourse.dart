@@ -73,10 +73,10 @@ class EmployeeDataSource implements EmployeeFirbaseOperations {
       switch (age) {
         case Selection.elder:
           if (i['age'] as int > 60) result.add(i);
-          break;
+          continue;
         case Selection.younger:
           if (i['age'] as int < 60) result.add(i);
-          break;
+          continue;
         default:
           break;
       }

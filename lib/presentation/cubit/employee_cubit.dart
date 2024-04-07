@@ -39,12 +39,13 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     emit(
       EmployeeUpdated(
         employees: await GetEmployee.getEmployeeByAge(null, age),
+        isLoading: false,
       ),
     );
   }
 
   Future<void> addEmployee(Uint8List? image, String name, int age) async {
     await AddEmployee.addEmployee(image, name, age);
-    emit(EmployeeUpdated(employees: [...state.employees],isLoading: false));
+    emit(EmployeeUpdated(employees: [...state.employees],));
   }
 }
